@@ -8,21 +8,47 @@
 import SwiftUI
 import PDFKit
 
-struct PDFKitView: UIViewRepresentable {
-    let data: Data
+// MARK: - PDFKit view using UIViewController so viewDidAppear sets document with proper bounds
 
-    func makeUIView(context: Context) -> PDFView {
-        let view = PDFView()
-        view.autoScales       = true
-        view.displayMode      = .singlePageContinuous
-        view.displayDirection = .vertical
-        return view
+class PDFHostingController: UIViewController {
+    let pdfView = PDFView()
+    var document: PDFDocument?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        pdfView.displayMode      = .singlePageContinuous
+        pdfView.displayDirection = .vertical
+        pdfView.backgroundColor  = .systemGroupedBackground
+        pdfView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(pdfView)
+        NSLayoutConstraint.activate([
+            pdfView.topAnchor.constraint(equalTo: view.topAnchor),
+            pdfView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            pdfView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pdfView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
 
-    func updateUIView(_ view: PDFView, context: Context) {
-        view.document = PDFDocument(data: data)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        pdfView.document   = document
+        pdfView.autoScales = true
     }
 }
+
+struct PDFKitView: UIViewControllerRepresentable {
+    let document: PDFDocument
+
+    func makeUIViewController(context: Context) -> PDFHostingController {
+        let vc = PDFHostingController()
+        vc.document = document
+        return vc
+    }
+
+    func updateUIViewController(_ vc: PDFHostingController, context: Context) {}
+}
+
+// MARK: - PDF Preview Sheet
 
 struct PDFPreviewSheet: View {
     let pdfData: Data
@@ -31,19 +57,13 @@ struct PDFPreviewSheet: View {
 
     var body: some View {
         NavigationStack {
-            PDFKitView(data: pdfData)
+            PDFKitView(document: PDFDocument(data: pdfData)!)
                 .ignoresSafeArea(edges: .bottom)
                 .navigationTitle(reportTitle)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Close") { dismiss() }
-                    }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        ShareLink(
-                            item: pdfData,
-                            preview: SharePreview(reportTitle, image: Image(systemName: "doc.fill"))
-                        )
                     }
                 }
         }
