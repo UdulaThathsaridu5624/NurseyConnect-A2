@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-enum ManagerSection: String, CaseIterable, Identifiable {
+enum ManagerSection: String, CaseIterable, Identifiable, Hashable {
     case dashboard  = "Dashboard"
     case rooms      = "Rooms"
     case attendance = "Attendance"
@@ -31,60 +31,123 @@ enum ManagerSection: String, CaseIterable, Identifiable {
 }
 
 struct ManagerRootView: View {
-    @Environment(\.dismiss) private var dismiss
+    var onChangeRole: (() -> Void)? = nil
     @State private var selectedSection: ManagerSection? = .dashboard
-    @State private var selectedRoom: Room?
-    @State private var selectedReport: IncidentReport?
 
     var body: some View {
         NavigationSplitView {
             ManagerSidebarView(
                 selection: $selectedSection,
-                onExit: { dismiss() }
+                onExit: { onChangeRole?() }
             )
             .navigationSplitViewColumnWidth(min: 200, ideal: 240, max: 280)
-        } content: {
-            contentView
-                .navigationSplitViewColumnWidth(min: 300, ideal: 380, max: 460)
         } detail: {
-            detailView
+            NavigationStack {
+                detailContent
+            }
         }
         .navigationSplitViewStyle(.balanced)
     }
 
     @ViewBuilder
-    private var contentView: some View {
+    private var detailContent: some View {
         switch selectedSection {
         case .dashboard:
-            ManagerDashboardView()
+            ManagerDashboardView(onNavigate: { selectedSection = $0 })
         case .rooms:
-            RoomsListView(selectedRoom: $selectedRoom)
+            RoomsWithDetailView()
         case .attendance:
             AttendanceView()
         case .analytics:
             AnalyticsView()
         case .incidents:
-            ManagerIncidentQueueView(selectedReport: $selectedReport)
+            IncidentsWithDetailView()
         case .reports:
             ReportGeneratorView()
         case .none:
             ContentUnavailableView("Select a section", systemImage: "sidebar.left")
         }
     }
+}
 
-    @ViewBuilder
-    private var detailView: some View {
-        if let room = selectedRoom, selectedSection == .rooms {
-            RoomDetailView(room: room)
-        } else if let report = selectedReport, selectedSection == .incidents {
-            IncidentDetailView(report: report)
-        } else {
-            ContentUnavailableView(
-                "Nothing Selected",
-                systemImage: "sidebar.right",
-                description: Text("Select an item from the list.")
-            )
+// Rooms: list + push detail via NavigationLink
+private struct RoomsWithDetailView: View {
+    @Query(sort: \Room.name) private var rooms: [Room]
+
+    var body: some View {
+        List(rooms) { room in
+            NavigationLink(destination: RoomDetailView(room: room)) {
+                HStack(spacing: AppSpacing.md) {
+                    RoundedRectangle(cornerRadius: 6)
+                        .fill(Color(hex: room.colorHex))
+                        .frame(width: 6, height: 44)
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text(room.name).font(.cardTitle)
+                        Text(room.ageGroup.rawValue).font(.bodySmall).foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    VStack(alignment: .trailing, spacing: 3) {
+                        Text("\(room.activeChildrenCount) children")
+                            .font(.bodySmall).foregroundStyle(.secondary)
+                        RatioBadge(room: room)
+                    }
+                }
+                .padding(.vertical, AppSpacing.xs)
+            }
         }
+        .listStyle(.insetGrouped)
+        .navigationTitle("Rooms")
+    }
+}
+
+// Incidents: list + push detail via NavigationLink
+private struct IncidentsWithDetailView: View {
+    @Query(sort: \IncidentReport.incidentDate, order: .reverse) private var reports: [IncidentReport]
+    @State private var statusFilter: IncidentStatus? = .pendingReview
+    @State private var showingNew = false
+
+    private var filtered: [IncidentReport] {
+        guard let f = statusFilter else { return reports }
+        return reports.filter { $0.status == f }
+    }
+
+    var body: some View {
+        Group {
+            if filtered.isEmpty {
+                ContentUnavailableView(
+                    statusFilter == nil ? "No Incidents" : "No \(statusFilter!.rawValue) Incidents",
+                    systemImage: "checkmark.shield"
+                )
+            } else {
+                List(filtered) { report in
+                    NavigationLink(destination: IncidentDetailView(report: report)) {
+                        IncidentRowView(report: report)
+                    }
+                    .listRowBackground(Color.nurseryCard)
+                }
+                .listStyle(.insetGrouped)
+                .scrollContentBackground(.hidden)
+            }
+        }
+        .navigationTitle("Incidents")
+        .background(Color.nurseryBackground)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Menu {
+                    Button("All") { statusFilter = nil }; Divider()
+                    ForEach(IncidentStatus.allCases, id: \.self) { s in
+                        Button(s.rawValue) { statusFilter = s }
+                    }
+                } label: {
+                    Label(statusFilter?.rawValue ?? "All", systemImage: "line.3.horizontal.decrease.circle")
+                }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button { showingNew = true } label: { Label("New", systemImage: "plus") }
+                    .keyboardShortcut("n", modifiers: .command)
+            }
+        }
+        .sheet(isPresented: $showingNew) { NewIncidentFlow() }
     }
 }
 

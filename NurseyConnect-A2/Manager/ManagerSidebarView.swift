@@ -19,9 +19,12 @@ struct ManagerSidebarView: View {
     }
 
     var body: some View {
-        List(ManagerSection.allCases, selection: $selection) { section in
-            Label(section.rawValue, systemImage: section.systemImage)
-                .badge(section == .incidents && pendingCount > 0 ? pendingCount : 0)
+        List(selection: $selection) {
+            ForEach(ManagerSection.allCases) { section in
+                Label(section.rawValue, systemImage: section.systemImage)
+                    .badge(section == .incidents && pendingCount > 0 ? pendingCount : 0)
+                    .tag(section)
+            }
         }
         .listStyle(.sidebar)
         .navigationTitle("NurseyConnect")

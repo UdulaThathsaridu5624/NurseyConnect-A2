@@ -7,18 +7,27 @@
 
 import SwiftUI
 
-enum AppRole: String, Identifiable {
+enum AppRole: String {
     case keyworker = "Keyworker"
     case manager   = "Setting Manager"
-    var id: String { rawValue }
 }
 
 struct RoleSelectionView: View {
-    @State private var selectedRole: AppRole?
+    @State private var activeRole: AppRole? = nil
 
     var body: some View {
+        // Render roles directly — not inside a sheet/cover so NavigationSplitView gets full sizing
+        if activeRole == .keyworker {
+            KeyworkerRootView(onChangeRole: { activeRole = nil })
+        } else if activeRole == .manager {
+            ManagerRootView(onChangeRole: { activeRole = nil })
+        } else {
+            selectionScreen
+        }
+    }
+
+    private var selectionScreen: some View {
         ZStack {
-            // Background gradient
             LinearGradient(
                 colors: [Color.nurseryPrimary.opacity(0.15), Color.nurseryTeal.opacity(0.1)],
                 startPoint: .topLeading,
@@ -27,13 +36,10 @@ struct RoleSelectionView: View {
             .ignoresSafeArea()
 
             VStack(spacing: AppSpacing.xl) {
-                // Logo / branding
                 VStack(spacing: AppSpacing.sm) {
                     Image(systemName: "building.2.crop.circle.fill")
                         .font(.system(size: 72))
-                        .foregroundStyle(
-                            LinearGradient.nurseryAvatar
-                        )
+                        .foregroundStyle(LinearGradient.nurseryAvatar)
                     Text("NurseyConnect")
                         .font(.system(.largeTitle, design: .rounded, weight: .bold))
                         .foregroundStyle(Color.nurseryPrimary)
@@ -43,7 +49,6 @@ struct RoleSelectionView: View {
                 }
                 .padding(.bottom, AppSpacing.lg)
 
-                // Role cards
                 VStack(spacing: AppSpacing.md) {
                     Text("Select your role to continue")
                         .font(.sectionHead)
@@ -54,28 +59,16 @@ struct RoleSelectionView: View {
                         icon: "person.fill",
                         subtitle: "Record daily diaries & incident reports",
                         color: .nurseryPrimary
-                    ) {
-                        selectedRole = .keyworker
-                    }
+                    ) { activeRole = .keyworker }
 
                     RoleCard(
                         role: .manager,
                         icon: "building.2.fill",
                         subtitle: "Room oversight, analytics & reports",
                         color: .nurseryTeal
-                    ) {
-                        selectedRole = .manager
-                    }
+                    ) { activeRole = .manager }
                 }
                 .padding(.horizontal, AppSpacing.lg)
-            }
-        }
-        .fullScreenCover(item: $selectedRole) { role in
-            switch role {
-            case .keyworker:
-                KeyworkerRootView()
-            case .manager:
-                ManagerRootView()
             }
         }
     }

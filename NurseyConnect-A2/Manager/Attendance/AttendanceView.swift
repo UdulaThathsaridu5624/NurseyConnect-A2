@@ -35,24 +35,35 @@ struct AttendanceView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Controls bar
-            HStack(spacing: AppSpacing.md) {
-                DatePicker("", selection: $selectedDate, displayedComponents: .date)
-                    .labelsHidden()
-                    .tint(Color.nurseryPrimary)
-
-                Picker("Room", selection: $selectedRoom) {
-                    Text("All Rooms").tag(Optional<Room>.none)
-                    ForEach(rooms) { room in Text(room.name).tag(Optional(room)) }
+            // Controls bar — two rows to avoid cramping
+            VStack(spacing: AppSpacing.sm) {
+                HStack {
+                    Label("Date", systemImage: "calendar")
+                        .font(.bodySmall)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    DatePicker("", selection: $selectedDate, displayedComponents: .date)
+                        .labelsHidden()
+                        .tint(Color.nurseryPrimary)
                 }
-                .pickerStyle(.menu)
-                .tint(Color.nurseryPrimary)
-
-                Spacer()
-
-                Text("\(presentCount) present")
-                    .font(.sectionHead)
-                    .foregroundStyle(Color.nurseryPrimary)
+                HStack {
+                    Label("Room", systemImage: "door.left.hand.open")
+                        .font(.bodySmall)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Picker("", selection: $selectedRoom) {
+                        Text("All Rooms").tag(Optional<Room>.none)
+                        ForEach(rooms) { room in Text(room.name).tag(Optional(room)) }
+                    }
+                    .pickerStyle(.menu)
+                    .tint(Color.nurseryPrimary)
+                }
+                HStack {
+                    Text("\(presentCount) of \(activeChildren.count) present")
+                        .font(.sectionHead)
+                        .foregroundStyle(Color.nurseryPrimary)
+                    Spacer()
+                }
             }
             .padding(AppSpacing.md)
             .background(Color.nurseryCard)

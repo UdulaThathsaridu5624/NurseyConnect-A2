@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct ManagerDashboardView: View {
+    var onNavigate: ((ManagerSection) -> Void)? = nil
+
     @Query private var children: [Child]
     @Query private var rooms: [Room]
     @Query private var reports: [IncidentReport]
@@ -42,36 +44,36 @@ struct ManagerDashboardView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: AppSpacing.lg) {
 
-                // Stat cards grid
+                // Stat cards grid — tap to navigate to relevant section
                 LazyVGrid(columns: columns, spacing: AppSpacing.md) {
-                    DashboardStatCard(
-                        title: "Children Present",
-                        value: "\(presentCount)",
-                        icon: "person.3.fill",
-                        color: .nurseryPrimary,
-                        subtitle: "of \(children.filter { $0.isActive }.count) enrolled"
-                    )
-                    DashboardStatCard(
-                        title: "Ratio Alerts",
-                        value: "\(ratioAlerts)",
-                        icon: "exclamationmark.triangle.fill",
-                        color: ratioAlerts > 0 ? .red : .green,
-                        subtitle: ratioAlerts > 0 ? "Action required" : "All rooms compliant"
-                    )
-                    DashboardStatCard(
-                        title: "Pending Incidents",
-                        value: "\(pendingIncidents)",
-                        icon: "bell.badge.fill",
-                        color: pendingIncidents > 0 ? .nurseryAccent : .green,
-                        subtitle: pendingIncidents > 0 ? "Awaiting review" : "All reviewed"
-                    )
-                    DashboardStatCard(
-                        title: "Meals Logged",
-                        value: "\(mealsToday)",
-                        icon: "fork.knife",
-                        color: .orange,
-                        subtitle: "Today"
-                    )
+                    Button { onNavigate?(.attendance) } label: {
+                        DashboardStatCard(title: "Children Present", value: "\(presentCount)",
+                            icon: "person.3.fill", color: .nurseryPrimary,
+                            subtitle: "of \(children.filter { $0.isActive }.count) enrolled")
+                    }
+                    .buttonStyle(.plain)
+
+                    Button { onNavigate?(.rooms) } label: {
+                        DashboardStatCard(title: "Ratio Alerts", value: "\(ratioAlerts)",
+                            icon: "exclamationmark.triangle.fill",
+                            color: ratioAlerts > 0 ? .red : .green,
+                            subtitle: ratioAlerts > 0 ? "Action required" : "All rooms compliant")
+                    }
+                    .buttonStyle(.plain)
+
+                    Button { onNavigate?(.incidents) } label: {
+                        DashboardStatCard(title: "Pending Incidents", value: "\(pendingIncidents)",
+                            icon: "bell.badge.fill",
+                            color: pendingIncidents > 0 ? .nurseryAccent : .green,
+                            subtitle: pendingIncidents > 0 ? "Awaiting review" : "All reviewed")
+                    }
+                    .buttonStyle(.plain)
+
+                    Button { onNavigate?(.analytics) } label: {
+                        DashboardStatCard(title: "Meals Logged", value: "\(mealsToday)",
+                            icon: "fork.knife", color: .orange, subtitle: "Today")
+                    }
+                    .buttonStyle(.plain)
                 }
 
                 // Room ratio overview
@@ -83,21 +85,28 @@ struct ManagerDashboardView: View {
 
                         VStack(spacing: AppSpacing.sm) {
                             ForEach(rooms) { room in
-                                HStack {
-                                    Circle()
-                                        .fill(Color(hex: room.colorHex))
-                                        .frame(width: 10, height: 10)
-                                    Text(room.name)
-                                        .font(.cardTitle)
-                                    Spacer()
-                                    Text(room.ratioString)
-                                        .font(.bodySmall)
-                                        .foregroundStyle(.secondary)
-                                    RatioBadge(room: room)
+                                Button { onNavigate?(.rooms) } label: {
+                                    HStack {
+                                        Circle()
+                                            .fill(Color(hex: room.colorHex))
+                                            .frame(width: 10, height: 10)
+                                        Text(room.name)
+                                            .font(.cardTitle)
+                                            .foregroundStyle(.primary)
+                                        Spacer()
+                                        Text(room.ratioString)
+                                            .font(.bodySmall)
+                                            .foregroundStyle(.secondary)
+                                        RatioBadge(room: room)
+                                        Image(systemName: "chevron.right")
+                                            .font(.caption)
+                                            .foregroundStyle(.tertiary)
+                                    }
+                                    .padding(AppSpacing.md)
+                                    .background(Color.nurseryCard)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
                                 }
-                                .padding(AppSpacing.md)
-                                .background(Color.nurseryCard)
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .buttonStyle(.plain)
                             }
                         }
                     }
