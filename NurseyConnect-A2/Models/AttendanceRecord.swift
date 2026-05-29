@@ -22,7 +22,7 @@ final class AttendanceRecord {
     var checkOutTime: Date?
     var checkedInBy: String = ""
     var checkedOutBy: String = ""
-    var method: AttendanceMethod = .walkin
+    var method: AttendanceMethod = AttendanceMethod.walkin
     var notes: String = ""
 
     var child: Child?
