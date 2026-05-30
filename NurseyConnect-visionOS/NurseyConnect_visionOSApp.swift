@@ -15,6 +15,11 @@ struct NurseyConnect_visionOSApp: App {
         WindowGroup {
             ContentView()
                 .environment(appModel)
+                // Ornament: EYFS ratio badge floating on the right edge of the window
+                // This is a visionOS-exclusive UI element — doesn't exist on iPad/iPhone
+                .ornament(attachmentAnchor: .scene(.trailing)) {
+                    RatioOrnamentView()
+                }
         }
         .defaultSize(width: 900, height: 650)
 
@@ -22,7 +27,7 @@ struct NurseyConnect_visionOSApp: App {
             ChildListWindow(roomID: roomID ?? UUID())
                 .environment(appModel)
         }
-        .defaultSize(width: 520, height: 420)
+        .defaultSize(width: 560, height: 520)
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             ImmersiveView()
