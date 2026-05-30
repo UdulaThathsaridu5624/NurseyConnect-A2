@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A135FE2C2FCA8A7A00662898 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = A135FE2B2FCA8A7A00662898 /* RealityKitContent */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A135FA742FC940EF00662898 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,13 +25,33 @@
 			remoteGlobalIDString = A135FA632FC940ED00662898;
 			remoteInfo = "NurseyConnect-A2";
 		};
+		A135FE3B2FCA8A7C00662898 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A135FA5C2FC940ED00662898 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A135FE262FCA8A7A00662898;
+			remoteInfo = "NurseyConnect-visionOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		A135FA642FC940ED00662898 /* NurseyConnect-A2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NurseyConnect-A2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A135FA732FC940EF00662898 /* NurseyConnect-A2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NurseyConnect-A2Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A135FA7D2FC940EF00662898 /* NurseyConnect-A2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NurseyConnect-A2UITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A135FE272FCA8A7A00662898 /* NurseyConnect-visionOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NurseyConnect-visionOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A135FE2A2FCA8A7A00662898 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = folder; path = RealityKitContent; sourceTree = "<group>"; };
+		A135FE3A2FCA8A7C00662898 /* NurseyConnect-visionOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NurseyConnect-visionOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A135FE442FCA8A7C00662898 /* Exceptions for "NurseyConnect-visionOS" folder in "NurseyConnect-visionOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A135FE262FCA8A7A00662898 /* NurseyConnect-visionOS */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A135FA662FC940ED00662898 /* NurseyConnect-A2 */ = {
@@ -43,6 +67,19 @@
 		A135FA802FC940EF00662898 /* NurseyConnect-A2UITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "NurseyConnect-A2UITests";
+			sourceTree = "<group>";
+		};
+		A135FE282FCA8A7A00662898 /* NurseyConnect-visionOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A135FE442FCA8A7C00662898 /* Exceptions for "NurseyConnect-visionOS" folder in "NurseyConnect-visionOS" target */,
+			);
+			path = "NurseyConnect-visionOS";
+			sourceTree = "<group>";
+		};
+		A135FE3D2FCA8A7C00662898 /* NurseyConnect-visionOSTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "NurseyConnect-visionOSTests";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -69,6 +106,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A135FE242FCA8A7A00662898 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A135FE2C2FCA8A7A00662898 /* RealityKitContent in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A135FE372FCA8A7C00662898 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -78,6 +130,9 @@
 				A135FA662FC940ED00662898 /* NurseyConnect-A2 */,
 				A135FA762FC940EF00662898 /* NurseyConnect-A2Tests */,
 				A135FA802FC940EF00662898 /* NurseyConnect-A2UITests */,
+				A135FE282FCA8A7A00662898 /* NurseyConnect-visionOS */,
+				A135FE292FCA8A7A00662898 /* Packages */,
+				A135FE3D2FCA8A7C00662898 /* NurseyConnect-visionOSTests */,
 				A135FA652FC940ED00662898 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,8 +143,18 @@
 				A135FA642FC940ED00662898 /* NurseyConnect-A2.app */,
 				A135FA732FC940EF00662898 /* NurseyConnect-A2Tests.xctest */,
 				A135FA7D2FC940EF00662898 /* NurseyConnect-A2UITests.xctest */,
+				A135FE272FCA8A7A00662898 /* NurseyConnect-visionOS.app */,
+				A135FE3A2FCA8A7C00662898 /* NurseyConnect-visionOSTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A135FE292FCA8A7A00662898 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				A135FE2A2FCA8A7A00662898 /* RealityKitContent */,
+			);
+			path = Packages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,6 +228,52 @@
 			productReference = A135FA7D2FC940EF00662898 /* NurseyConnect-A2UITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		A135FE262FCA8A7A00662898 /* NurseyConnect-visionOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A135FE452FCA8A7C00662898 /* Build configuration list for PBXNativeTarget "NurseyConnect-visionOS" */;
+			buildPhases = (
+				A135FE232FCA8A7A00662898 /* Sources */,
+				A135FE242FCA8A7A00662898 /* Frameworks */,
+				A135FE252FCA8A7A00662898 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A135FE282FCA8A7A00662898 /* NurseyConnect-visionOS */,
+			);
+			name = "NurseyConnect-visionOS";
+			packageProductDependencies = (
+				A135FE2B2FCA8A7A00662898 /* RealityKitContent */,
+			);
+			productName = "NurseyConnect-visionOS";
+			productReference = A135FE272FCA8A7A00662898 /* NurseyConnect-visionOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A135FE392FCA8A7C00662898 /* NurseyConnect-visionOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A135FE462FCA8A7C00662898 /* Build configuration list for PBXNativeTarget "NurseyConnect-visionOSTests" */;
+			buildPhases = (
+				A135FE362FCA8A7C00662898 /* Sources */,
+				A135FE372FCA8A7C00662898 /* Frameworks */,
+				A135FE382FCA8A7C00662898 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A135FE3C2FCA8A7C00662898 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A135FE3D2FCA8A7C00662898 /* NurseyConnect-visionOSTests */,
+			);
+			name = "NurseyConnect-visionOSTests";
+			packageProductDependencies = (
+			);
+			productName = "NurseyConnect-visionOSTests";
+			productReference = A135FE3A2FCA8A7C00662898 /* NurseyConnect-visionOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -184,6 +295,13 @@
 						CreatedOnToolsVersion = 26.2;
 						TestTargetID = A135FA632FC940ED00662898;
 					};
+					A135FE262FCA8A7A00662898 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					A135FE392FCA8A7C00662898 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = A135FE262FCA8A7A00662898;
+					};
 				};
 			};
 			buildConfigurationList = A135FA5F2FC940ED00662898 /* Build configuration list for PBXProject "NurseyConnect-A2" */;
@@ -203,6 +321,8 @@
 				A135FA632FC940ED00662898 /* NurseyConnect-A2 */,
 				A135FA722FC940EF00662898 /* NurseyConnect-A2Tests */,
 				A135FA7C2FC940EF00662898 /* NurseyConnect-A2UITests */,
+				A135FE262FCA8A7A00662898 /* NurseyConnect-visionOS */,
+				A135FE392FCA8A7C00662898 /* NurseyConnect-visionOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -223,6 +343,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		A135FA7B2FC940EF00662898 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A135FE252FCA8A7A00662898 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A135FE382FCA8A7C00662898 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -253,6 +387,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A135FE232FCA8A7A00662898 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A135FE362FCA8A7C00662898 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -265,6 +413,11 @@
 			isa = PBXTargetDependency;
 			target = A135FA632FC940ED00662898 /* NurseyConnect-A2 */;
 			targetProxy = A135FA7E2FC940EF00662898 /* PBXContainerItemProxy */;
+		};
+		A135FE3C2FCA8A7C00662898 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A135FE262FCA8A7A00662898 /* NurseyConnect-visionOS */;
+			targetProxy = A135FE3B2FCA8A7C00662898 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -565,6 +718,114 @@
 			};
 			name = Release;
 		};
+		A135FE402FCA8A7C00662898 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sophiesun.NurseyConnect-visionOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 7;
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		A135FE412FCA8A7C00662898 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sophiesun.NurseyConnect-visionOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 7;
+				VALIDATE_PRODUCT = YES;
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
+		A135FE422FCA8A7C00662898 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sophiesun.NurseyConnect-visionOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 7;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NurseyConnect-visionOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NurseyConnect-visionOS";
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		A135FE432FCA8A7C00662898 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sophiesun.NurseyConnect-visionOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 7;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/NurseyConnect-visionOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/NurseyConnect-visionOS";
+				VALIDATE_PRODUCT = YES;
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -604,7 +865,32 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		A135FE452FCA8A7C00662898 /* Build configuration list for PBXNativeTarget "NurseyConnect-visionOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A135FE402FCA8A7C00662898 /* Debug */,
+				A135FE412FCA8A7C00662898 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A135FE462FCA8A7C00662898 /* Build configuration list for PBXNativeTarget "NurseyConnect-visionOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A135FE422FCA8A7C00662898 /* Debug */,
+				A135FE432FCA8A7C00662898 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A135FE2B2FCA8A7A00662898 /* RealityKitContent */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RealityKitContent;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A135FA5C2FC940ED00662898 /* Project object */;
 }

@@ -28,3 +28,9 @@ Pods/
 *.sqlite
 *.sqlite-shm
 *.sqlite-wal
+
+# Reality Composer Pro (auto-generated 3D assets, not used in our implementation)
+*.rcprojectdata
+*.rcproject
+Packages/RealityKitContent/Sources/RealityKitContent/*.rkassets/
+Packages/RealityKitContent/Package.realitycomposerpro/
