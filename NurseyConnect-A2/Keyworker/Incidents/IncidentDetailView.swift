@@ -106,12 +106,14 @@ struct IncidentDetailView: View {
         .navigationTitle("Incident Report").navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                if !report.nextStatuses.isEmpty {
-                    Menu {
-                        ForEach(report.nextStatuses, id: \.self) { status in
-                            Button { withAnimation(.easeIn(duration: 0.2)) { advanceTo(status) } } label: { Label(status.rawValue, systemImage: statusIcon(for: status)) }
-                        }
-                    } label: { Label("Update Status", systemImage: "arrow.trianglehead.clockwise") }.tint(Color.nurseryPrimary)
+                if let next = report.nextStatuses.first {
+                    Button {
+                        withAnimation(.easeIn(duration: 0.2)) { advanceTo(next) }
+                    } label: {
+                        Label("Mark: \(next.rawValue)", systemImage: statusIcon(for: next))
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(Color.nurseryPrimary)
                 }
             }
         }

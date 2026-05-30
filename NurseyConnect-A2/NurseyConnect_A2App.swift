@@ -37,7 +37,7 @@ struct NurseyConnect_A2App: App {
 
     var body: some Scene {
         WindowGroup {
-            RoleSelectionView()
+            ManagerRootView()
         }
         .modelContainer(sharedModelContainer)
     }

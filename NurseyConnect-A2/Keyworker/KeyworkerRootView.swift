@@ -6,14 +6,23 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct KeyworkerRootView: View {
-    @Environment(\.dismiss) private var dismiss
+    var onChangeRole: (() -> Void)? = nil
 
     var body: some View {
         TabView {
             Tab("Daily Diary", systemImage: "book.fill") {
-                NavigationStack { DiaryDashboardView() }
+                NavigationStack {
+                    DiaryDashboardView()
+                        .toolbar {
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button("Change Role") { onChangeRole?() }
+                                    .tint(Color.nurseryPrimary)
+                            }
+                        }
+                }
             }
             Tab("Incidents", systemImage: "exclamationmark.triangle.fill") {
                 NavigationStack { IncidentListView() }

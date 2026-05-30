@@ -14,72 +14,121 @@ struct IncidentStep1BasicInfo: View {
     @Query(sort: \Child.fullName)
     private var children: [Child]
 
+    private var activeChildren: [Child] { children.filter { $0.isActive } }
+
     var body: some View {
-        Form {
-            // MARK: Child
-            Section("Child") {
-                if children.isEmpty {
-                    Text("No children assigned")
-                        .foregroundStyle(.secondary)
-                } else {
-                    Picker("Select child", selection: $draft.selectedChild) {
-                        Text("Select a child…").tag(Optional<Child>.none)
-                        ForEach(children.filter { $0.isActive }) { child in
-                            HStack {
-                                Text(child.preferredName)
-                                Text("·")
-                                Text(child.roomName)
-                                    .foregroundStyle(.secondary)
+        ScrollView {
+            VStack(spacing: AppSpacing.md) {
+
+                // Child
+                sectionCard("Child") {
+                    if children.isEmpty {
+                        Text("No children assigned").foregroundStyle(.secondary).padding(AppSpacing.sm)
+                    } else {
+                        ForEach(activeChildren) { child in
+                            selectRow("\(child.preferredName) · \(child.roomName)",
+                                      selected: draft.selectedChild?.id == child.id) {
+                                draft.selectedChild = child
                             }
-                            .tag(Optional(child))
+                            if child.id != activeChildren.last?.id { Divider().padding(.leading, AppSpacing.md) }
                         }
                     }
-                    .pickerStyle(.navigationLink)
-                    .tint(Color.nurseryPrimary)
                 }
-            }
 
-            // MARK: Incident type
-            Section("Incident Type") {
-                Picker("Category", selection: $draft.category) {
+                // Category
+                sectionCard("Incident Category") {
                     ForEach(IncidentCategory.allCases, id: \.self) { cat in
-                        Label(cat.rawValue, systemImage: cat.systemImage).tag(cat)
-                    }
-                }
-                .pickerStyle(.navigationLink)
-
-                Picker("Severity", selection: $draft.severity) {
-                    ForEach(IncidentSeverity.allCases, id: \.self) { sev in
-                        HStack {
-                            Circle()
-                                .fill(sev.color)
-                                .frame(width: 10, height: 10)
-                            Text(sev.rawValue)
+                        selectRowLabel(cat.rawValue, icon: cat.systemImage,
+                                       selected: draft.category == cat) {
+                            draft.category = cat
                         }
-                        .tag(sev)
+                        if cat != IncidentCategory.allCases.last { Divider().padding(.leading, AppSpacing.md) }
                     }
                 }
-                .pickerStyle(.segmented)
-            }
 
-            // MARK: Date & time
-            Section("When") {
-                DatePicker("Date", selection: $draft.incidentDate,
-                           displayedComponents: .date)
-                    .tint(Color.nurseryPrimary)
+                // Severity
+                sectionCard("Severity") {
+                    Picker("Severity", selection: $draft.severity) {
+                        ForEach(IncidentSeverity.allCases, id: \.self) { sev in
+                            Text(sev.rawValue).tag(sev)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .padding(AppSpacing.md)
+                }
 
-                DatePicker("Time", selection: $draft.incidentTime,
-                           displayedComponents: .hourAndMinute)
-                    .tint(Color.nurseryPrimary)
-            }
+                // Date & time
+                sectionCard("When") {
+                    VStack(spacing: 0) {
+                        HStack {
+                            Text("Date").foregroundStyle(.secondary)
+                            Spacer()
+                            DatePicker("", selection: $draft.incidentDate, displayedComponents: .date)
+                                .labelsHidden().tint(Color.nurseryPrimary)
+                        }
+                        .padding(AppSpacing.md)
+                        Divider().padding(.leading, AppSpacing.md)
+                        HStack {
+                            Text("Time").foregroundStyle(.secondary)
+                            Spacer()
+                            DatePicker("", selection: $draft.incidentTime, displayedComponents: .hourAndMinute)
+                                .labelsHidden().tint(Color.nurseryPrimary)
+                        }
+                        .padding(AppSpacing.md)
+                    }
+                }
 
-            // MARK: Location
-            Section("Location") {
-                TextField("e.g. Outdoor play area, Sunshine Room…",
-                          text: $draft.location)
-                    .accessibilityLabel("Location")
+                // Location
+                sectionCard("Location") {
+                    TextField("e.g. Outdoor play area, Sunshine Room…", text: $draft.location)
+                        .padding(AppSpacing.md)
+                }
             }
+            .padding(AppSpacing.md)
         }
+    }
+
+    private func sectionCard<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(title)
+                .font(.sectionHead)
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, AppSpacing.md)
+                .padding(.bottom, AppSpacing.xs)
+            VStack(spacing: 0) { content() }
+                .background(Color.nurseryCard)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+    }
+
+    private func selectRow(_ title: String, selected: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack {
+                Text(title).foregroundStyle(.primary)
+                Spacer()
+                if selected {
+                    Image(systemName: "checkmark").foregroundStyle(Color.nurseryPrimary).fontWeight(.semibold)
+                }
+            }
+            .padding(AppSpacing.md)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func selectRowLabel(_ title: String, icon: String, selected: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack {
+                Label(title, systemImage: icon).foregroundStyle(.primary)
+                Spacer()
+                if selected {
+                    Image(systemName: "checkmark").foregroundStyle(Color.nurseryPrimary).fontWeight(.semibold)
+                }
+            }
+            .padding(AppSpacing.md)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 }
 

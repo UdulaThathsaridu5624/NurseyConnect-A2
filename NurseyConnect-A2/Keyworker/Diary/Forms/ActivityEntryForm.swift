@@ -43,6 +43,7 @@ struct ActivityEntryForm: View {
             }
         }
         .presentationCornerRadius(20)
+        .interactiveDismissDisabled()
     }
     private func save() {
         let e = DiaryEntry(entryType: .activity, timestamp: timestamp, recordedByName: SampleData.keyworkerName, child: child)
