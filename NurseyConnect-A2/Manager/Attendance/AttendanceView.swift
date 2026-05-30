@@ -14,8 +14,10 @@ struct AttendanceView: View {
     @Environment(\.modelContext) private var modelContext
 
     @State private var selectedDate: Date = .now
-    @State private var selectedRoom: Room? = nil
+    @State private var selectedRoomID: UUID? = nil
     @Query(sort: \Room.name) private var rooms: [Room]
+
+    private var selectedRoom: Room? { rooms.first { $0.id == selectedRoomID } }
 
     private var today: Date { Calendar.current.startOfDay(for: selectedDate) }
 
@@ -46,17 +48,18 @@ struct AttendanceView: View {
                         .labelsHidden()
                         .tint(Color.nurseryPrimary)
                 }
-                HStack {
-                    Label("Room", systemImage: "door.left.hand.open")
-                        .font(.bodySmall)
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                    Picker("", selection: $selectedRoom) {
-                        Text("All Rooms").tag(Optional<Room>.none)
-                        ForEach(rooms) { room in Text(room.name).tag(Optional(room)) }
+                // Room filter — horizontal selectable chips
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: AppSpacing.sm) {
+                        roomChip(title: "All Rooms", isSelected: selectedRoomID == nil) {
+                            selectedRoomID = nil
+                        }
+                        ForEach(rooms) { room in
+                            roomChip(title: room.name, isSelected: selectedRoomID == room.id) {
+                                selectedRoomID = room.id
+                            }
+                        }
                     }
-                    .pickerStyle(.menu)
-                    .tint(Color.nurseryPrimary)
                 }
                 HStack {
                     Text("\(presentCount) of \(activeChildren.count) present")
@@ -91,6 +94,20 @@ struct AttendanceView: View {
         }
         .background(Color.nurseryBackground)
         .navigationTitle("Attendance")
+    }
+
+    private func roomChip(title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font(.system(.subheadline, design: .rounded, weight: isSelected ? .bold : .regular))
+                .foregroundStyle(isSelected ? .white : .primary)
+                .padding(.horizontal, AppSpacing.md)
+                .padding(.vertical, AppSpacing.sm)
+                .background(
+                    Capsule().fill(isSelected ? Color.nurseryPrimary : Color.secondary.opacity(0.15))
+                )
+        }
+        .buttonStyle(.plain)
     }
 
     private func checkIn(child: Child) {

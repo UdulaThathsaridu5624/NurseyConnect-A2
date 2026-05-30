@@ -50,7 +50,7 @@ struct IncidentListView: View {
             }
         }
         .background(Color.nurseryBackground)
-        .sheet(isPresented: $showingNewIncident) { NewIncidentFlow() }
+        .fullScreenCover(isPresented: $showingNewIncident) { NewIncidentFlow() }
         .navigationDestination(item: $selectedReport) { IncidentDetailView(report: $0) }
     }
 }

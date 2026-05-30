@@ -20,7 +20,7 @@ struct RoleSelectionView: View {
         if activeRole == .keyworker {
             KeyworkerRootView(onChangeRole: { activeRole = nil })
         } else if activeRole == .manager {
-            ManagerRootView(onChangeRole: { activeRole = nil })
+            ManagerRootView()
         } else {
             selectionScreen
         }

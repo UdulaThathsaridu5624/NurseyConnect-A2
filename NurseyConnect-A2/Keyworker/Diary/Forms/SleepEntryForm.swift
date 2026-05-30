@@ -42,6 +42,7 @@ struct SleepEntryForm: View {
             }
         }
         .presentationCornerRadius(20)
+        .interactiveDismissDisabled()
     }
     private func save() {
         let e = DiaryEntry(entryType: .sleep, timestamp: sleepStart, recordedByName: SampleData.keyworkerName, child: child)

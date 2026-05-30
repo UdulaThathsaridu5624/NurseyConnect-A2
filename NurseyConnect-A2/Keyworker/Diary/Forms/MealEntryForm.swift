@@ -49,6 +49,7 @@ struct MealEntryForm: View {
             }
         }
         .presentationCornerRadius(20)
+        .interactiveDismissDisabled()
     }
     private func save() {
         let e = DiaryEntry(entryType: .meal, timestamp: timestamp, recordedByName: SampleData.keyworkerName, child: child)

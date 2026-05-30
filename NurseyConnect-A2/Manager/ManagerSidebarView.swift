@@ -10,9 +10,9 @@ import SwiftData
 
 struct ManagerSidebarView: View {
     @Binding var selection: ManagerSection?
-    let onExit: () -> Void
 
     @Query private var reports: [IncidentReport]
+    @State private var showingKeyworker = false
 
     private var pendingCount: Int {
         reports.filter { $0.status == .pendingReview }.count
@@ -28,6 +28,17 @@ struct ManagerSidebarView: View {
         }
         .listStyle(.sidebar)
         .navigationTitle("NurseyConnect")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showingKeyworker = true
+                } label: {
+                    Label("Keyworker", systemImage: "person.fill")
+                }
+                .tint(Color.nurseryPrimary)
+                .help("Switch to Keyworker View")
+            }
+        }
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 0) {
                 Divider()
@@ -42,15 +53,12 @@ struct ManagerSidebarView: View {
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
-                    Button(action: onExit) {
-                        Image(systemName: "rectangle.portrait.and.arrow.right")
-                            .foregroundStyle(.secondary)
-                    }
-                    .buttonStyle(.plain)
-                    .help("Change Role")
                 }
                 .padding(AppSpacing.md)
             }
+        }
+        .fullScreenCover(isPresented: $showingKeyworker) {
+            KeyworkerRootView(onChangeRole: { showingKeyworker = false })
         }
     }
 }

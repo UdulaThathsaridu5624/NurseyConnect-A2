@@ -20,13 +20,17 @@ struct ReportGeneratorView: View {
     @Query(sort: \Child.fullName)  private var children: [Child]
     @Query(sort: \Room.name)       private var rooms: [Room]
 
-    @State private var selectedType:     ReportType     = .incident
-    @State private var selectedIncident: IncidentReport?
-    @State private var selectedChild:    Child?
-    @State private var selectedRoom:     Room?
-    @State private var reportDate:       Date           = .now
-    @State private var generatedPDF:     Data?
-    @State private var showPreview              = false
+    @State private var selectedType:       ReportType = .incident
+    @State private var selectedIncidentID: UUID?
+    @State private var selectedChildID:    UUID?
+    @State private var selectedRoomID:     UUID?
+    @State private var reportDate:         Date = .now
+    @State private var generatedPDF:       Data?
+    @State private var showPreview         = false
+
+    private var selectedIncident: IncidentReport? { reports.first { $0.id == selectedIncidentID } }
+    private var selectedChild:    Child?           { children.first { $0.id == selectedChildID } }
+    private var selectedRoom:     Room?            { rooms.first   { $0.id == selectedRoomID } }
 
     private var canGenerate: Bool {
         switch selectedType {
@@ -51,34 +55,37 @@ struct ReportGeneratorView: View {
                     if reports.isEmpty {
                         Text("No incident reports available").foregroundStyle(.secondary)
                     } else {
-                        Picker("Incident", selection: $selectedIncident) {
-                            Text("Choose…").tag(Optional<IncidentReport>.none)
-                            ForEach(reports) { r in
-                                Text("\(r.referenceNumber) · \(r.child?.preferredName ?? "—")").tag(Optional(r))
-                            }
+                        ForEach(reports) { r in
+                            selectableRow(
+                                title: "\(r.referenceNumber) · \(r.child?.preferredName ?? "—")",
+                                isSelected: selectedIncidentID == r.id
+                            ) { selectedIncidentID = r.id }
                         }
-                        .pickerStyle(.navigationLink)
                     }
                 }
 
             case .diary:
-                Section("Select Child & Date") {
-                    Picker("Child", selection: $selectedChild) {
-                        Text("Choose…").tag(Optional<Child>.none)
-                        ForEach(children.filter { $0.isActive }) { c in Text(c.preferredName).tag(Optional(c)) }
+                Section("Select Child") {
+                    ForEach(children.filter { $0.isActive }) { c in
+                        selectableRow(title: c.preferredName, isSelected: selectedChildID == c.id) {
+                            selectedChildID = c.id
+                        }
                     }
-                    .pickerStyle(.navigationLink)
+                }
+                Section("Date") {
                     DatePicker("Date", selection: $reportDate, displayedComponents: .date)
                         .tint(Color.nurseryPrimary)
                 }
 
             case .attendance:
-                Section("Select Room & Month") {
-                    Picker("Room", selection: $selectedRoom) {
-                        Text("Choose…").tag(Optional<Room>.none)
-                        ForEach(rooms) { r in Text(r.name).tag(Optional(r)) }
+                Section("Select Room") {
+                    ForEach(rooms) { r in
+                        selectableRow(title: r.name, isSelected: selectedRoomID == r.id) {
+                            selectedRoomID = r.id
+                        }
                     }
-                    .pickerStyle(.navigationLink)
+                }
+                Section("Month") {
                     DatePicker("Month", selection: $reportDate, displayedComponents: .date)
                         .tint(Color.nurseryPrimary)
                 }
@@ -105,6 +112,22 @@ struct ReportGeneratorView: View {
             }
         }
         .keyboardShortcut("p", modifiers: .command)
+    }
+
+    private func selectableRow(title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack {
+                Text(title).foregroundStyle(.primary)
+                Spacer()
+                if isSelected {
+                    Image(systemName: "checkmark")
+                        .foregroundStyle(Color.nurseryPrimary)
+                        .fontWeight(.semibold)
+                }
+            }
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 
     private func generatePDF() -> Data? {

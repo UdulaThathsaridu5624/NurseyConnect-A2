@@ -55,6 +55,6 @@ struct ManagerIncidentQueueView: View {
             }
         }
         .background(Color.nurseryBackground)
-        .sheet(isPresented: $showingNewIncident) { NewIncidentFlow() }
+        .fullScreenCover(isPresented: $showingNewIncident) { NewIncidentFlow() }
     }
 }

@@ -54,22 +54,20 @@ struct NewIncidentFlow: View {
         NavigationStack {
             VStack(spacing: 0) {
 
-                // MARK: Progress bar
+                // MARK: Progress bar (fixed height)
                 VStack(spacing: AppSpacing.xs) {
                     ProgressView(value: Double(currentStep), total: Double(totalSteps))
                         .tint(Color.nurseryPrimary)
                         .padding(.horizontal, AppSpacing.md)
-
                     Text("Step \(currentStep) of \(totalSteps)")
                         .font(.bodySmall)
                         .foregroundStyle(.secondary)
                 }
-                .padding(.top, AppSpacing.sm)
-                .padding(.bottom, AppSpacing.xs)
+                .padding(.vertical, AppSpacing.sm)
 
                 Divider()
 
-                // MARK: Step content
+                // MARK: Step content — flexible, scrolls internally
                 Group {
                     switch currentStep {
                     case 1:
@@ -84,15 +82,11 @@ struct NewIncidentFlow: View {
                         EmptyView()
                     }
                 }
-                .transition(.asymmetric(
-                    insertion: .move(edge: .trailing).combined(with: .opacity),
-                    removal:   .move(edge: .leading).combined(with: .opacity)
-                ))
-                .animation(.easeInOut(duration: 0.25), value: currentStep)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
 
                 Divider()
 
-                // MARK: Navigation buttons
+                // MARK: Navigation buttons (fixed height)
                 HStack {
                     if currentStep > 1 {
                         Button {
@@ -140,6 +134,7 @@ struct NewIncidentFlow: View {
             }
         }
         .presentationCornerRadius(20)
+        .interactiveDismissDisabled()
     }
 
     // MARK: - Submit

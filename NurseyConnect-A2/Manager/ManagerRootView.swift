@@ -31,16 +31,12 @@ enum ManagerSection: String, CaseIterable, Identifiable, Hashable {
 }
 
 struct ManagerRootView: View {
-    var onChangeRole: (() -> Void)? = nil
     @State private var selectedSection: ManagerSection? = .dashboard
 
     var body: some View {
         NavigationSplitView {
-            ManagerSidebarView(
-                selection: $selectedSection,
-                onExit: { onChangeRole?() }
-            )
-            .navigationSplitViewColumnWidth(min: 200, ideal: 240, max: 280)
+            ManagerSidebarView(selection: $selectedSection)
+                .navigationSplitViewColumnWidth(min: 200, ideal: 240, max: 280)
         } detail: {
             NavigationStack {
                 detailContent
@@ -100,11 +96,11 @@ private struct RoomsWithDetailView: View {
     }
 }
 
-// Incidents: list + push detail via NavigationLink
+// Incidents: Manager reviews & approves (per case study §4.2.2 — does NOT create).
+// Filter via chips; tap a row to review/countersign.
 private struct IncidentsWithDetailView: View {
     @Query(sort: \IncidentReport.incidentDate, order: .reverse) private var reports: [IncidentReport]
-    @State private var statusFilter: IncidentStatus? = .pendingReview
-    @State private var showingNew = false
+    @State private var statusFilter: IncidentStatus? = nil
 
     private var filtered: [IncidentReport] {
         guard let f = statusFilter else { return reports }
@@ -112,7 +108,21 @@ private struct IncidentsWithDetailView: View {
     }
 
     var body: some View {
-        Group {
+        VStack(spacing: 0) {
+            // Filter chips
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: AppSpacing.sm) {
+                    filterChip(title: "All", active: statusFilter == nil) { statusFilter = nil }
+                    ForEach(IncidentStatus.allCases, id: \.self) { s in
+                        filterChip(title: s.rawValue, active: statusFilter == s) { statusFilter = s }
+                    }
+                }
+                .padding(AppSpacing.md)
+            }
+            .background(Color.nurseryCard)
+
+            Divider()
+
             if filtered.isEmpty {
                 ContentUnavailableView(
                     statusFilter == nil ? "No Incidents" : "No \(statusFilter!.rawValue) Incidents",
@@ -131,23 +141,18 @@ private struct IncidentsWithDetailView: View {
         }
         .navigationTitle("Incidents")
         .background(Color.nurseryBackground)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Menu {
-                    Button("All") { statusFilter = nil }; Divider()
-                    ForEach(IncidentStatus.allCases, id: \.self) { s in
-                        Button(s.rawValue) { statusFilter = s }
-                    }
-                } label: {
-                    Label(statusFilter?.rawValue ?? "All", systemImage: "line.3.horizontal.decrease.circle")
-                }
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                Button { showingNew = true } label: { Label("New", systemImage: "plus") }
-                    .keyboardShortcut("n", modifiers: .command)
-            }
+    }
+
+    private func filterChip(title: String, active: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font(.system(.subheadline, design: .rounded, weight: active ? .bold : .regular))
+                .foregroundStyle(active ? .white : .primary)
+                .padding(.horizontal, AppSpacing.md)
+                .padding(.vertical, AppSpacing.sm)
+                .background(Capsule().fill(active ? Color.nurseryPrimary : Color.secondary.opacity(0.15)))
         }
-        .sheet(isPresented: $showingNew) { NewIncidentFlow() }
+        .buttonStyle(.plain)
     }
 }
 

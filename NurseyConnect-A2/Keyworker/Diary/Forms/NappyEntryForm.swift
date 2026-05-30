@@ -39,6 +39,7 @@ struct NappyEntryForm: View {
             }
         }
         .presentationCornerRadius(20)
+        .interactiveDismissDisabled()
     }
     private func save() {
         let e = DiaryEntry(entryType: .nappy, timestamp: timestamp, recordedByName: changedBy, child: child)
