@@ -3,7 +3,7 @@
 
 **Student ID:** IT22056320  
 **Student Name:** Senevirathna K.M.U.T  
-**Year:** 4, Semester 1, 2026  
+**Year:** 4, Semester 2, 2026  
 
 ---
 
