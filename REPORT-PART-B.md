@@ -3,7 +3,7 @@
 
 **Student ID:** IT22056320  
 **Module:** SE4020 — Mobile Application Design and Development  
-**Year:** 4, Semester 1, 2026  
+**Year:** 4, Semester 2, 2026  
 
 ---
 
