@@ -7,6 +7,16 @@
 
 ---
 
+## Demo Video
+
+▶️ [Watch Part A Demo — NurseyConnect iPadOS](https://drive.google.com/file/d/1Wnc3PbqnJqt5817kuTgHVF5o1x-u51l3/view?usp=sharing)
+
+> Setting Manager dashboard, Rooms with drag & drop, Attendance check-in/out,
+> Analytics charts (Swift Charts), PDF report generation (PDFKit),
+> Incident review workflow, and Keyworker role carried forward from Assignment 1.
+
+---
+
 ## 1. Introduction & Extension from Assignment 1
 
 Assignment 1 implemented the **Keyworker role** — daily diary logging (activity, sleep,
