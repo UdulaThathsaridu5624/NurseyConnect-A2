@@ -70,28 +70,26 @@ private struct IncidentAlertCard: View {
     let onToggle: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            // Header — always visible, tap to expand
+        VStack(alignment: .center, spacing: 8) {
+            // Compact badge — same style as "Ratios OK" in the main window title
             Button(action: onToggle) {
-                HStack(spacing: 10) {
-                    Image(systemName: "exclamationmark.triangle.fill")
-                        .font(.title3).foregroundStyle(.white)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("1 Pending Incident")
-                            .font(.system(.subheadline, design: .rounded, weight: .bold))
-                            .foregroundStyle(.white)
-                        Text(isExpanded ? "Tap to collapse" : "Tap to review")
-                            .font(.caption2).foregroundStyle(.white.opacity(0.8))
-                    }
-                    Spacer()
+                HStack(spacing: 8) {
+                    Image(systemName: "bell.badge.fill")
+                        .font(.system(.subheadline, weight: .bold))
+                        .foregroundStyle(.white)
+                    Text("1 Pending Incident")
+                        .font(.system(.subheadline, design: .rounded, weight: .bold))
+                        .foregroundStyle(.white)
                     Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                        .font(.caption).foregroundStyle(.white.opacity(0.8))
+                        .font(.caption2).foregroundStyle(.white.opacity(0.8))
                 }
-                .padding(.horizontal, 16).padding(.vertical, 12)
-                .background(.red.opacity(0.85), in: Capsule())
+                .padding(.horizontal, 14).padding(.vertical, 8)
+                .background(.red.opacity(0.9), in: Capsule())
+                .shadow(color: .red.opacity(0.4), radius: 8)
             }
             .buttonStyle(.plain)
             .hoverEffect()
+            .symbolEffect(.pulse)
 
             // Expanded detail
             if isExpanded {

@@ -25,8 +25,19 @@ struct ContentView: View {
                         .font(.system(size: 38))
                         .foregroundStyle(nurseryGreen)
                     VStack(alignment: .leading, spacing: 3) {
-                        Text("NurseyConnect")
-                            .font(.system(.title2, design: .rounded, weight: .bold))
+                        HStack(spacing: 10) {
+                            Text("NurseyConnect")
+                                .font(.system(.title2, design: .rounded, weight: .bold))
+                            // Ratio compliance badge — inline with title
+                            let allOK = VisionSampleData.ratioAlerts == 0
+                            Label(allOK ? "Ratios OK" : "\(VisionSampleData.ratioAlerts) Alert",
+                                  systemImage: allOK ? "checkmark.shield.fill" : "exclamationmark.shield.fill")
+                                .font(.system(.caption, design: .rounded, weight: .bold))
+                                .foregroundStyle(allOK ? .white : .white)
+                                .padding(.horizontal, 8).padding(.vertical, 3)
+                                .background(allOK ? Color.green : Color.red, in: Capsule())
+                                .symbolEffect(.pulse, isActive: !allOK)
+                        }
                         Text("Setting Manager · Spatial Dashboard")
                             .font(.subheadline).foregroundStyle(.secondary)
                     }
