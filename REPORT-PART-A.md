@@ -144,7 +144,7 @@ The implemented app follows Variation 3 closely. Below is a screenshot of the ac
 Attendance section showing the two-column NavigationSplitView in the iPad Air 13"
 simulator:
 
-![Final Implementation - Actual App](mockup-4-actual.png)
+![Final Implementation - Actual App](https://drive.google.com/uc?export=view&id=1TyhRMopLGh7WtQT1xd4Ts3ctGwsrTmNu)
 *Figure 4: Final implementation — Attendance section showing NavigationSplitView*
 
 ---
