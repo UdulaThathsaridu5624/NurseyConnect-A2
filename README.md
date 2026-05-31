@@ -12,7 +12,7 @@
 
 ---
 
-## Part A — iPadOS App (10 marks)
+## Part A — iPadOS App 
 
 **Setting Manager role** for Little Stars Nursery & Daycare — Dashboard, Rooms (drag & drop), Attendance, Analytics (Swift Charts), Report Generation (PDFKit), and Incident Review. Keyworker role from Assignment 1 carried forward.
 
@@ -34,7 +34,7 @@
 
 ---
 
-## Part B — visionOS App (15 marks)
+## Part B — visionOS App 
 
 **NurseyConnect Space** — a spatial dashboard for Apple Vision Pro allowing the Setting Manager to oversee all nursery rooms simultaneously in an immersive mixed-reality environment.
 
