@@ -74,7 +74,10 @@ struct RoomDetailView: View {
                     } else {
                         VStack(spacing: 0) {
                             ForEach(activeChildren) { child in
-                                ChildRoomCard(child: child)
+                                HStack {
+                                    ChildRoomCard(child: child)
+                                    MoveToRoomButton(child: child, currentRoom: room)
+                                }
                                 if child.id != activeChildren.last?.id { Divider() }
                             }
                         }
@@ -98,5 +101,33 @@ struct RoomDetailView: View {
         }
         .background(Color.nurseryBackground)
         .navigationTitle(room.name)
+    }
+}
+
+// MARK: - Move to Room Button
+
+private struct MoveToRoomButton: View {
+    let child: Child
+    let currentRoom: Room
+    @Query(sort: \Room.name) private var allRooms: [Room]
+
+    var otherRooms: [Room] { allRooms.filter { $0.id != currentRoom.id } }
+
+    var body: some View {
+        Menu {
+            ForEach(otherRooms) { room in
+                Button {
+                    child.room = room
+                } label: {
+                    Label("Move to \(room.name)", systemImage: "arrow.right.circle")
+                }
+            }
+        } label: {
+            Image(systemName: "arrow.right.circle")
+                .font(.title3)
+                .foregroundStyle(Color.nurseryPrimary)
+                .padding(AppSpacing.sm)
+        }
+        .buttonStyle(.plain)
     }
 }

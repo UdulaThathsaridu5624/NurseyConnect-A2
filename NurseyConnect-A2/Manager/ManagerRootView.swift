@@ -69,6 +69,8 @@ struct ManagerRootView: View {
 // Rooms: list + push detail via NavigationLink
 private struct RoomsWithDetailView: View {
     @Query(sort: \Room.name) private var rooms: [Room]
+    @Environment(\.modelContext) private var modelContext
+    @State private var droppingRoomID: UUID? = nil
 
     var body: some View {
         List(rooms) { room in
@@ -87,8 +89,29 @@ private struct RoomsWithDetailView: View {
                             .font(.bodySmall).foregroundStyle(.secondary)
                         RatioBadge(room: room)
                     }
+                    // Visual hint when a child is being dragged over this row
+                    if droppingRoomID == room.id {
+                        Image(systemName: "plus.circle.fill")
+                            .foregroundStyle(Color.nurseryPrimary)
+                            .font(.title3)
+                            .transition(.scale)
+                    }
                 }
                 .padding(.vertical, AppSpacing.xs)
+            }
+            // Each list row is also a drop target
+            .dropDestination(for: String.self) { droppedIDs, _ in
+                for idString in droppedIDs {
+                    guard let uuid = UUID(uuidString: idString) else { continue }
+                    let descriptor = FetchDescriptor<Child>(predicate: #Predicate { $0.id == uuid })
+                    if let child = try? modelContext.fetch(descriptor).first {
+                        child.room = room
+                    }
+                }
+                droppingRoomID = nil
+                return true
+            } isTargeted: { targeted in
+                withAnimation { droppingRoomID = targeted ? room.id : nil }
             }
         }
         .listStyle(.insetGrouped)
