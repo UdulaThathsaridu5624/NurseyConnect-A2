@@ -102,6 +102,7 @@ struct ReportGeneratorView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(Color.nurseryPrimary)
                 .disabled(!canGenerate)
+                .keyboardShortcut("p", modifiers: .command)
             }
         }
         .navigationTitle("Report Generator")
@@ -111,7 +112,6 @@ struct ReportGeneratorView: View {
                 PDFPreviewSheet(pdfData: data, reportTitle: selectedType.rawValue)
             }
         }
-        .keyboardShortcut("p", modifiers: .command)
     }
 
     private func selectableRow(title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
